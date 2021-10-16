@@ -1,5 +1,5 @@
 {
-    "name": "mypractice",
+    "name": "@joleneyu/mypractice",
     "version": "1.0.0",
     "description": "This is my practice package",
     "main": "index.js",
@@ -17,6 +17,7 @@
     },
     "homepage": "https://github.com/joleneyu/npm-package-practice#readme",
     "dependencies": {
+        "@joleneyu/mypractice": "^1.0.0",
         "date-holidays": "^3.10.0"
     }
 }

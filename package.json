@@ -4,17 +4,19 @@
     "description": "This is my practice package",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/joleneyu/npm-package-practice.git"
+        "type": "git",
+        "url": "git+https://github.com/joleneyu/npm-package-practice.git"
     },
     "author": "joleneyu",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/joleneyu/npm-package-practice/issues"
+        "url": "https://github.com/joleneyu/npm-package-practice/issues"
     },
-    "homepage": "https://github.com/joleneyu/npm-package-practice#readme"
-  }
-  
+    "homepage": "https://github.com/joleneyu/npm-package-practice#readme",
+    "dependencies": {
+        "date-holidays": "^3.10.0"
+    }
+}

@@ -1,6 +1,7 @@
 import Holidays from 'date-holidays'
 import log from 'loglevel'
 
+log.setLevel('warn')
 // Input local date and time with timezone information to get the right results.
 // Format example "2021-10-03 00:00:00 GMT+1100" - Use this to check if Sydney time 2021-10-03 is a public holiday.
 // Leave input undefined to check if right now is a public holiday.

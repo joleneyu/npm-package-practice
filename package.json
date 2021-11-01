@@ -18,6 +18,7 @@
     },
     "homepage": "https://github.com/joleneyu/npm-package-practice#readme",
     "dependencies": {
-        "date-holidays": "^3.10.0"
+        "date-holidays": "^3.10.0",
+        "loglevel": "^1.7.1"
     }
 }

@@ -1,6 +1,7 @@
-function isPublicHoliday() {
+import Holidays from 'date-holidays'
+
+export function isPublicHoliday() {
     var d = new Date()
-    var Holidays = require('date-holidays')
     var hd = new Holidays('AU', 'NSW')
     var thisYear = d.getFullYear()
     var thisYearHoliday = hd.getHolidays(thisYear)
@@ -8,8 +9,8 @@ function isPublicHoliday() {
     thisYearHoliday.forEach(element => {
         if (element.type == 'public') {
             var nowTime = d.getTime()
-            startTime = element.start.getTime()
-            endTime = element.end.getTime()
+            var startTime = element.start.getTime()
+            var endTime = element.end.getTime()
             if (startTime <= nowTime && nowTime <= endTime) {
                 console.log("It's public holiday - " + element.name)
                 return true
@@ -22,6 +23,7 @@ function isPublicHoliday() {
                 return true
                 } 
                 else {
+                    console.log("It's working day!")
                     return false
                 }
         }
@@ -30,4 +32,4 @@ function isPublicHoliday() {
 
 
 
-isPublicHoliday()
+// isPublicHoliday()

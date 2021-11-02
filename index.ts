@@ -46,4 +46,4 @@ export function isPublicHoliday(date: string) {
 )}
 
 
-isPublicHoliday("2021-10-04 00:00:00 GMT+1100")
+// isPublicHoliday("2021-10-04 00:00:00 GMT+1100")

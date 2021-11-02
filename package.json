@@ -2,10 +2,11 @@
     "name": "@joleneyu/mypractice",
     "version": "1.0.1",
     "description": "This is my practice package",
-    "main": "index.js",
+    "main": "lib/index.js",
     "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
@@ -20,5 +21,8 @@
     "dependencies": {
         "date-holidays": "^3.10.0",
         "loglevel": "^1.7.1"
+    },
+    "devDependencies": {
+        "typescript": "^4.4.4"
     }
 }

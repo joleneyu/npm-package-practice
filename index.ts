@@ -9,18 +9,20 @@ log.setLevel('warn')
 export function convertUTCtoAEDT(date?: string) {
     if (date === undefined) {
         var utcDate = new Date()
-        var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
-        var SydDate = SydTime.toISOString().split('T')[0]
-        return SydDate
+        log.debug(utcDate)
+        var AEDTime = new Date(utcDate.getTime() + 11*60*60*1000)
+        var AEDTDate = AEDTime.toISOString().split('T')[0]
+        return AEDTDate
     }
     else {
         var utcDate = new Date(date)
-        var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
-        var SydDate = SydTime.toISOString().split('T')[0]
-        log.debug(SydDate)
-        return SydDate
+        var AEDTime = new Date(utcDate.getTime() + 11*60*60*1000)
+        var AEDTDate = AEDTime.toISOString().split('T')[0]
+        log.debug(AEDTDate)
+        return AEDTDate
     }
 }
+convertUTCtoAEDT("2021-12-25 00:00:00 GMT-0500")
 
 export function listDateOfHoliday(date?: string) {
     var thisYear = convertUTCtoAEDT(date).split('-')[0]

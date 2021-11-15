@@ -1,50 +1,46 @@
 import Holidays from 'date-holidays'
 import log from 'loglevel'
 
-log.setLevel('debug')
+log.setLevel('warn')
 // Input local date and time with timezone information to get the right results.
 // Format example "2021-10-03 00:00:00 GMT+0800" - Use this to check if Chinese date 2021-10-03 is a public holiday in NSW, AU.
 // Leave input undefined to check if right now is a public holiday in NSW, AU.
+
+export function IsDSInEffect(date: Date) {
+    if (date.getTimezoneOffset() === -660) {
+        // Daylight Savings is in effect
+        var SydTime = new Date(date.getTime() + 11*60*60*1000)
+        log.debug(SydTime)
+        var SydDate = SydTime.toISOString().split('T')[0]
+        log.debug(SydDate)
+        return SydDate
+    }
+    else {
+        // Daylight Savings is NOT in effect
+        var SydTime = new Date(date.getTime() + 10*60*60*1000)
+        log.debug(SydTime)
+        var SydDate = SydTime.toISOString().split('T')[0]
+        log.debug(SydDate)
+        return SydDate
+    }
+} 
 
 export function convertUTCtoSydDate(date?: string) {
     if (date === undefined) {
         const utcDate = new Date()
         log.debug(utcDate.getTimezoneOffset())
-        
-        if (utcDate.getTimezoneOffset() === -660) {
-            // Daylight Savings is in effect
-            var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
-            var SydDate = SydTime.toISOString().split('T')[0]
-            return SydDate
-        }
-        else {
-            // Daylight Savings is NOT in effect
-            var SydTime = new Date(utcDate.getTime() + 10*60*60*1000)
-            var SydDate = SydTime.toISOString().split('T')[0]
-            return SydDate
-        }
+        const result = IsDSInEffect(utcDate)
+        return result
     }
     else {
         const utcDate = new Date(date)
         log.debug(utcDate.getTimezoneOffset())
-        if (utcDate.getTimezoneOffset() === -660) {
-            // Daylight Savings is in effect
-            var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
-            var SydDate = SydTime.toISOString().split('T')[0]
-            return SydDate
-        }
-        else {
-            // Daylight Savings is NOT in effect
-            var SydTime = new Date(utcDate.getTime() + 10*60*60*1000)
-            log.debug(SydTime)
-            var SydDate = SydTime.toISOString().split('T')[0]
-            log.debug(SydDate)
-            return SydDate
-        }
+        const result = IsDSInEffect(utcDate)
+        return result
     }
 }
 
-convertUTCtoSydDate("2021-9-25 00:00:00 GMT-0500")
+// convertUTCtoSydDate("2021-8-31 21:01:00 GMT+1100")
 
 // export function convertUTCtoAEST(date?: string) {
 //     if (date === undefined) {
@@ -64,14 +60,14 @@ convertUTCtoSydDate("2021-9-25 00:00:00 GMT-0500")
 // }
 
 export function listDateOfHoliday(date?: string) {
-    var thisYear = convertUTCtoSydDate(date).split('-')[0]
-    var hd = new Holidays('AU', 'NSW')
-    var thisYearHoliday = hd.getHolidays(thisYear)
-    var ListOfDate = []
-    var hLen = thisYearHoliday.length
+    const thisYear = convertUTCtoSydDate(date).split('-')[0]
+    const hd = new Holidays('AU', 'NSW')
+    const thisYearHoliday = hd.getHolidays(thisYear)
+    const ListOfDate = []
+    const hLen = thisYearHoliday.length
     for (let i = 0; i < hLen; i++) {
         if (thisYearHoliday[i].type === 'public') {
-            var shortDate = thisYearHoliday[i].date.split(' ')[0]
+            const shortDate = thisYearHoliday[i].date.split(' ')[0]
             ListOfDate.push(shortDate)
         }
     }
@@ -80,10 +76,10 @@ export function listDateOfHoliday(date?: string) {
 }
 
 export function isPublicHoliday(date?: string) {
-    var AEDTDate = convertUTCtoSydDate(date)
-    log.debug(AEDTDate)
-    var ShortList = listDateOfHoliday(date)
-    if (ShortList.includes(AEDTDate)) {
+    const SydDate = convertUTCtoSydDate(date)
+    log.debug(SydDate)
+    const ShortList = listDateOfHoliday(date)
+    if (ShortList.includes(SydDate)) {
         log.debug("It is public holiday in NSW, AU")
         return true
     } else {

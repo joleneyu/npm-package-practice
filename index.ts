@@ -1,31 +1,70 @@
 import Holidays from 'date-holidays'
 import log from 'loglevel'
 
-log.setLevel('warn')
+log.setLevel('debug')
 // Input local date and time with timezone information to get the right results.
 // Format example "2021-10-03 00:00:00 GMT+0800" - Use this to check if Chinese date 2021-10-03 is a public holiday in NSW, AU.
 // Leave input undefined to check if right now is a public holiday in NSW, AU.
 
-export function convertUTCtoAEDT(date?: string) {
+export function convertUTCtoSydDate(date?: string) {
     if (date === undefined) {
-        var utcDate = new Date()
-        log.debug(utcDate)
-        var AEDTime = new Date(utcDate.getTime() + 11*60*60*1000)
-        var AEDTDate = AEDTime.toISOString().split('T')[0]
-        return AEDTDate
+        const utcDate = new Date()
+        log.debug(utcDate.getTimezoneOffset())
+        
+        if (utcDate.getTimezoneOffset() === -660) {
+            // Daylight Savings is in effect
+            var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
+            var SydDate = SydTime.toISOString().split('T')[0]
+            return SydDate
+        }
+        else {
+            // Daylight Savings is NOT in effect
+            var SydTime = new Date(utcDate.getTime() + 10*60*60*1000)
+            var SydDate = SydTime.toISOString().split('T')[0]
+            return SydDate
+        }
     }
     else {
-        var utcDate = new Date(date)
-        var AEDTime = new Date(utcDate.getTime() + 11*60*60*1000)
-        var AEDTDate = AEDTime.toISOString().split('T')[0]
-        log.debug(AEDTDate)
-        return AEDTDate
+        const utcDate = new Date(date)
+        log.debug(utcDate.getTimezoneOffset())
+        if (utcDate.getTimezoneOffset() === -660) {
+            // Daylight Savings is in effect
+            var SydTime = new Date(utcDate.getTime() + 11*60*60*1000)
+            var SydDate = SydTime.toISOString().split('T')[0]
+            return SydDate
+        }
+        else {
+            // Daylight Savings is NOT in effect
+            var SydTime = new Date(utcDate.getTime() + 10*60*60*1000)
+            log.debug(SydTime)
+            var SydDate = SydTime.toISOString().split('T')[0]
+            log.debug(SydDate)
+            return SydDate
+        }
     }
 }
-convertUTCtoAEDT("2021-12-25 00:00:00 GMT-0500")
+
+convertUTCtoSydDate("2021-9-25 00:00:00 GMT-0500")
+
+// export function convertUTCtoAEST(date?: string) {
+//     if (date === undefined) {
+//         var utcDate = new Date()
+//         log.debug(utcDate)
+//         var AESTime = new Date(utcDate.getTime() + 10*60*60*1000)
+//         var AESTDate = AESTime.toISOString().split('T')[0]
+//         return AESTDate
+//     }
+//     else {
+//         var utcDate = new Date(date)
+//         var AESTime = new Date(utcDate.getTime() + 10*60*60*1000)
+//         var AESTDate = AESTime.toISOString().split('T')[0]
+//         log.debug(AESTDate)
+//         return AESTDate
+//     }
+// }
 
 export function listDateOfHoliday(date?: string) {
-    var thisYear = convertUTCtoAEDT(date).split('-')[0]
+    var thisYear = convertUTCtoSydDate(date).split('-')[0]
     var hd = new Holidays('AU', 'NSW')
     var thisYearHoliday = hd.getHolidays(thisYear)
     var ListOfDate = []
@@ -41,7 +80,7 @@ export function listDateOfHoliday(date?: string) {
 }
 
 export function isPublicHoliday(date?: string) {
-    var AEDTDate = convertUTCtoAEDT(date)
+    var AEDTDate = convertUTCtoSydDate(date)
     log.debug(AEDTDate)
     var ShortList = listDateOfHoliday(date)
     if (ShortList.includes(AEDTDate)) {

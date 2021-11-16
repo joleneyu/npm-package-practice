@@ -13,12 +13,19 @@ describe("first test", () => {
         const AEDTDate = convertUTCtoSydDate(result_local)
         expect(AEDTDate).toBe("2021-12-26")
     })
-    test("Should use local right now time if no date input", () => {
+    test("Should use local right now time if no date input with AEDT", () => {
         jest.useFakeTimers().setSystemTime(new Date("2021-12-24 12:00:00 GMT-0500").getTime())
         const localDate = new Date()
         // console.log(localDate)
         const AEDTDate = convertUTCtoSydDate()
         expect(AEDTDate).toBe("2021-12-25")
+    })
+    test("Should use local right now time if no date input with AEST", () => {
+        jest.useFakeTimers().setSystemTime(new Date("2021-08-31 12:00:00 GMT-0500").getTime())
+        const localDate = new Date()
+        // console.log(localDate)
+        const AEDTDate = convertUTCtoSydDate()
+        expect(AEDTDate).toBe("2021-09-01")
     })
     test("should return true if the input is Christmas", () => {
         const Christmas = isPublicHoliday("2021-12-25 00:00:00 GMT+1100")

@@ -21,11 +21,12 @@ describe("first test", () => {
         expect(AEDTDate).toBe("2021-12-25")
     })
     test("Should use local right now time if no date input with AEST", () => {
-        jest.useFakeTimers().setSystemTime(new Date("2021-08-31 12:00:00 GMT-0500").getTime())
+        jest.useFakeTimers().setSystemTime(new Date("2021-08-31 09:05:00 EDT").getTime())
         const localDate = new Date()
         // console.log(localDate)
+        // console.log(localDate.getTimezoneOffset())
         const AEDTDate = convertUTCtoSydDate()
-        expect(AEDTDate).toBe("2021-09-01")
+        expect(AEDTDate).toBe("2021-08-31")
     })
     test("should return true if the input is Christmas", () => {
         const Christmas = isPublicHoliday("2021-12-25 00:00:00 GMT+1100")
